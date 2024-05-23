@@ -1,0 +1,8 @@
+5.	Implementacja bezpiecznego PIN-padu z wyświetlaczem LCD/OLED i klawiaturą fizyczną 
+
+a)	Platforma sprzętowa STM F7 Nucleo albo Raspberry Pi Pico (możliwość wypożyczenia), mały wyświetlacz (SPI/I2C) i klawiatura membranowa albo na mikroswitchach, konstrukcja na breadbordzie. 
+b)	Łączność przez port szeregowy 
+c)	Skramblowanie klawiatury po każdym naciśnięciu przycisku albo raz na sesję (drugie wymaga kanału łączności zwrotnej i zapamiętywania stanu). 
+ZADANIA DODATKOWE:  
+- Implementacja jako urządzenie HID.  
+- Transmisja szyfrowana. 
