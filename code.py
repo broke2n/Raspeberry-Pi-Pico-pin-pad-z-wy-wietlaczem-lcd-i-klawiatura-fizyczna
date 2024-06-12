@@ -10,7 +10,30 @@ from adafruit_display_text import label
 import terminalio
 
 displayio.release_displays()
+path = "/password.txt"
 
+def encryptPassword(password, key):
+    encrypted = ""
+    for char in password:
+        encrypted += chr(ord(char) ^ key)
+    return encrypted
+def decryptPassword(encrypted_password, key):
+    decrypted = ""
+    for char in encrypted_password:
+        decrypted += chr(ord(char)^ key)
+    return decrypted
+
+def ReadFilePassword(path,key):
+    with open(path, "r") as file:
+        encrypted_password = file.read()
+    decrypted_password = decryptPassword(encrypted_password,key)
+    return decrypted_password
+    
+def WriteFilePassword(password, path, key):
+    encrypted_password = encryptPassword(password, key)
+    with open(path, "w") as file:
+        file.write(encrypted_password)
+    
 spi = busio.SPI(clock=board.GP18, MOSI=board.GP19)
 dc = board.GP21
 cs = board.GP17
@@ -75,8 +98,9 @@ def disOLED2(row0,row1,row2,row3,row4,row5):
     splash.append(text_area_5)
 
     display.root_group = splash
-    
-password = ""
+key = 42
+password_from_file = ReadFilePassword(path, key)
+password = password_from_file
 keyValues = ["A","B","C","D","1","2","3","E","4","5","6","F","7","8","9","@","*","0","#","!"]
 randomValues = []
 
@@ -102,11 +126,22 @@ def discOUTPUT(n):
     string = (n * "* " + "- " *(5-n))
 
 inout = 0
+print("PASSOWORD:" + password)
 inputedPassword = ''
 inputedChars = []
 decision = []
 d = ''
 
+while inout == 1:
+    disOLED2("","PASSWORD","IS","CORRECT","",":)")
+    inout = 0
+    with open(path, "w") as f:
+        pass
+    password_from_file = ReadFilePassword(path, 42)
+    password = password_from_file
+    time.sleep(10)
+    print("end")
+    
 while inout == 0 and password == '':
     normalKeyboard()
     keypad = adafruit_matrixkeypad.Matrix_Keypad(rows, cols, keys)
@@ -117,10 +152,16 @@ while inout == 0 and password == '':
     if (len(inputedChars) <=5): disOLED(inputedPassword,keys[0],keys[1],keys[2],keys[3],keys[4])
     if len(inputedPassword) == 5:
         inputedChars = []
-        password = inputedPassword
+        WriteFilePassword(inputedPassword, path, 42)
+        print("PASSOWORD:" + inputedPassword)
         inputedPassword = ''
-    time.sleep(0.1)
-    
+        password_from_file = ReadFilePassword(path, 42)
+        password = password_from_file
+        with open(path,"r") as f:
+            print("ENCRYPTED PASSWORD:" + f.read())
+        inout = 2
+    time.sleep(0.1)    
+
 while inout == 0 and password != '':
     discOUTPUT(len(inputedChars))
     randomKeyboard()
@@ -134,11 +175,14 @@ while inout == 0 and password != '':
         if(inputedPassword == password):
             inout = 1
         else:
+            print("WRONG PASSWORD")
             inputedPassword = ''
             inputedChars = []
             
-while inout == 1:
-    disOLED2("","PASSWORD","IS","CORRECT","",":)")
+
+    
+    
+    
 
 
 
