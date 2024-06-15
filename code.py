@@ -46,7 +46,7 @@ HEIGHT = 64
 display = adafruit_displayio_ssd1306.SSD1306(display_bus, width=WIDTH, height=HEIGHT)
 
 def disOLED(row0,row1,row2,row3,row4,row5):
-    text_0 = "Input:	{}".format(row0)
+    text_0 = "Input: {}".format(row0)
     text_1 = '|'.join(map(str,row1))
     text_2 = '|'.join(map(str,row2))
     text_3 = '|'.join(map(str,row3))
@@ -73,7 +73,7 @@ def disOLED(row0,row1,row2,row3,row4,row5):
     display.root_group = splash
     
 def disOLED2(row0,row1,row2,row3,row4,row5):
-    text_0 = "Input:	{}".format(row0)
+    text_0 = "Input: {}".format(row0)
     text_1 = ''.join(map(str,row1))
     text_2 = ''.join(map(str,row2))
     text_3 = ''.join(map(str,row3))
@@ -159,7 +159,7 @@ while inout == 0 and password == '':
         password = password_from_file
         with open(path,"r") as f:
             print("ENCRYPTED PASSWORD:" + f.read())
-        inout = 2
+        inout = 0
     time.sleep(0.1)    
 
 while inout == 0 and password != '':
@@ -178,12 +178,3 @@ while inout == 0 and password != '':
             print("WRONG PASSWORD")
             inputedPassword = ''
             inputedChars = []
-            
-
-    
-    
-    
-
-
-
-
